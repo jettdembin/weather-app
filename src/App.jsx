@@ -13,7 +13,8 @@ function App() {
   const [city, setCity] = useState(""); // Initialize city with empty string
   const [isFetchingData, setIsFetchingData] = useState(false);
   const [error, setError] = useState(null);
-  const [showFilter, setShowFilter] = useState(false); // [1
+  const [showFilter, setShowFilter] = useState(false);
+  const [filteredWeatherData, setFilteredWeatherData] = useState(null);
 
   const API_KEY = import.meta.env.VITE_APP_API_KEY;
 
@@ -79,8 +80,8 @@ function App() {
           {/* Display filter options if user clicks filters*/}
           {showFilter && (
             <Filter
+              setFilteredWeatherData={setFilteredWeatherData}
               showFilter={showFilter}
-              applyFilters={(filters) => console.log(filters)}
               isFetchingData={isFetchingData}
               weatherData={weatherData}
             />
@@ -90,7 +91,7 @@ function App() {
             <p>Loading...</p>
           ) : (
             <Card
-              weatherData={weatherData}
+              weatherData={filteredWeatherData || weatherData}
               setWeatherData={setWeatherData}
               city={city}
             />
