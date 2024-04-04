@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Filter.css";
 
 const Filter = ({ isFetchingData, weatherData }) => {
+  const [filteredWeatherData, setFilteredWeatherData] = useState([]);
   const [filterValues, setFilterValues] = useState({
     minTemperature: "",
     maxTemperature: "",
@@ -15,7 +16,36 @@ const Filter = ({ isFetchingData, weatherData }) => {
     sources: [],
   });
 
-  const applyFilters = (filters) => console.log(filters);
+  const applyFilters = (filters) => {
+    const filteredData = weatherData.filter((data) => {
+      if (filters.minTemperature && data.temperature < filters.minTemperature) {
+        return false;
+      }
+      if (filters.maxTemperature && data.temperature > filters.maxTemperature) {
+        return false;
+      }
+      if (filters.city_name && data.city_name !== filters.city_name) {
+        return false;
+      }
+      if (filters.state_code && data.state_code !== filters.state_code) {
+        return false;
+      }
+      if (filters.country_code && data.country_code !== filters.country_code) {
+        return false;
+      }
+      if (filters.timezone && data.timezone !== filters.timezone) {
+        return false;
+      }
+      if (filters.lat && data.lat !== filters.lat) {
+        return false;
+      }
+      if (filters.lon && data.lon !== filters.lon) {
+        return false;
+      }
+      return true;
+    });
+    setFilteredWeatherData(filteredData);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
